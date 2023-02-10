@@ -4,6 +4,7 @@
  */
 package views.PhatThuongManagerFrame;
 
+import controllers.PhatThuongManagerController.ChonHSController;
 import controllers.PhatThuongManagerController.DanhHieuController;
 import controllers.PhatThuongManagerController.PTCuoiNamController;
 import controllers.PhatThuongManagerController.PhanQuaController;
@@ -15,12 +16,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.DanhHieuModel;
+import models.HocSinh;
 import models.PhanQuaModel;
 import models.PhatThuongCuoiNamModel;
 import services.MysqlConnection;
@@ -319,14 +323,11 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNgayGhiNhan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2)
-                            .addComponent(txtPhanThuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(txtPhanThuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(0, 17, Short.MAX_VALUE)
                 .addComponent(btnPhatThuong)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -369,18 +370,25 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
         String phanQua = txtPhanThuong.getText();
         int idQua = ChonQuaJFrame.getIdQua();
 
+        List<HocSinh> lstHs = new ArrayList<>();
+        lstHs = ChonHSController.timTen(hoTen);
+
         if (!"".equals(hoTen) && !"".equals(namSinh) && !"".equals(danhHieu)
                 && !"".equals(ngayGhiNhan) && !"".equals(phanQua)) {
-            Date ns = Date.valueOf(namSinh);
-            Date ngn = Date.valueOf(ngayGhiNhan);
-            DanhHieuModel danhhieu = new DanhHieuModel(hoTen, ns, danhHieu, ngn);
-            DanhHieuController.themDanhHieu(danhhieu);
-            int idHs = DanhHieuController.getID(danhhieu);
-            PhatThuongCuoiNamModel pt = new PhatThuongCuoiNamModel(idHs, idQua);
-            PTCuoiNamController.phatThuong(pt);
-            showHSNhanThuong();
-            PhanQuaModel qua = PhanQuaController.find(idQua);
-            PhanQuaController.tangSoLuongDaPhat(qua);
+            if (lstHs.size() != 0) {
+                Date ns = Date.valueOf(namSinh);
+                Date ngn = Date.valueOf(ngayGhiNhan);
+                DanhHieuModel danhhieu = new DanhHieuModel(hoTen, ns, danhHieu, ngn);
+                DanhHieuController.themDanhHieu(danhhieu);
+                int idHs = DanhHieuController.getID(danhhieu);
+                PhatThuongCuoiNamModel pt = new PhatThuongCuoiNamModel(idHs, idQua);
+                PTCuoiNamController.phatThuong(pt);
+                showHSNhanThuong();
+                PhanQuaModel qua = PhanQuaController.find(idQua);
+                PhanQuaController.tangSoLuongDaPhat(qua);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Không tìm thấy học sinh này");
+            }
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "Điền thông tin");
@@ -433,7 +441,7 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        ChonHocSinhJFame chonHs = new ChonHocSinhJFame(parentJFrame);
+        ChonHSJFrame chonHs = new ChonHSJFrame(parentJFrame);
         chonHs.setLocationRelativeTo(null);
         chonHs.setResizable(false);
         chonHs.setVisible(true);

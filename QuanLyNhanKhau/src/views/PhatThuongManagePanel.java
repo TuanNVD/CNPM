@@ -4,6 +4,7 @@
  */
 package views;
 
+import controllers.PhatThuongManagerController.ChonHSController;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -54,31 +55,7 @@ public class PhatThuongManagePanel extends javax.swing.JPanel {
     
     public void show(){
         lstHs = new ArrayList<>();
-        Connection conn = null;
-        Statement stm = null;
-        
-        try {
-            conn = MysqlConnection.getMysqlConnection();
-            String sql = "SELECT ID, hoTen, gioiTinh, namSinh FROM `nhan_khau` WHERE YEAR(CURRENT_TIMESTAMP) - YEAR(namSinh) <= 18";
-            stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            while (rs.next()) {
-                HocSinh hs = new HocSinh(
-                        rs.getString("hoTen"), 
-                        rs.getDate("namSinh"),
-                        rs.getString("gioiTinh"),
-                        rs.getInt("ID")
-                );
-                lstHs.add(hs);
-            }
-
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(PhatThuongManagePanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PhatThuongManagePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        lstHs = ChonHSController.findAll();
         tableModel.setRowCount(0);
         lstHs.forEach((HocSinh hss) -> {
             tableModel.addRow(new Object[]{tableModel.getRowCount() + 1, hss.getIdNhanKhau(),

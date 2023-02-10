@@ -180,14 +180,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         jlbPhatThuong.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlbPhatThuong.setForeground(new java.awt.Color(255, 255, 255));
-        jlbPhatThuong.setText("Phát Thưởng");
+        jlbPhatThuong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/phan_thuong.png"))); // NOI18N
+        jlbPhatThuong.setText(" Phát Thưởng");
         jlbPhatThuong.setPreferredSize(new java.awt.Dimension(103, 32));
 
         javax.swing.GroupLayout PhatThuongBtnLayout = new javax.swing.GroupLayout(PhatThuongBtn);
         PhatThuongBtn.setLayout(PhatThuongBtnLayout);
         PhatThuongBtnLayout.setHorizontalGroup(
             PhatThuongBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlbPhatThuong, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PhatThuongBtnLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlbPhatThuong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PhatThuongBtnLayout.setVerticalGroup(
             PhatThuongBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

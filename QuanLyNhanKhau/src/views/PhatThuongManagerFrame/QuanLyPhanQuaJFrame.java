@@ -57,6 +57,7 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
         });
         countTong();
         countDaPhat();
+        tongTien();
         showQua();
     }
 
@@ -87,6 +88,7 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
             Logger.getLogger(QuanLyPhanQuaJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void countDaPhat() {
         Connection conn = null;
         Statement stm = null;
@@ -109,6 +111,28 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
 
     }
 
+    public void tongTien() {
+        Connection conn = null;
+        Statement stm = null;
+
+        int tong = 0;
+        try {
+            conn = MysqlConnection.getMysqlConnection();
+            String sql = "select giaTri, soLuong from phan_qua";
+            stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                tong = tong + rs.getInt("giatri") * rs.getInt("soLuong");
+            }
+            txtTien.setText(Integer.toString(tong));
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(QuanLyPhanQuaJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public void showQua() {
         lstQua = PhanQuaController.findAll();
 
@@ -118,12 +142,22 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
                 qua.getGiaTri(), qua.getSoLuong(), qua.getSoLuongDaPhat()});
         });
     }
-    
-    public void setText(){
-        txtTenQua.setText("");        
+
+    public void setText() {
+        txtTenQua.setText("");
         txtGiaTri.setText("");
         txtSoLuong.setText("");
 
+    }
+
+    public void mouseClick() {
+        int selectIndex = tblPhanQua.getSelectedRow();
+        if (selectIndex >= 0) {
+            PhanQuaModel qua = lstQua.get(selectIndex);
+            txtTenQua.setText(qua.getTenQua());
+            txtGiaTri.setText(Integer.toString(qua.getGiaTri()));
+            txtSoLuong.setText(Integer.toString(qua.getSoLuong()));
+        }
     }
 
     /**
@@ -154,6 +188,9 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPhanQua = new javax.swing.JTable();
         btnXoa = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txtTien = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("QUẢN LÝ PHẦN QUÀ");
@@ -225,6 +262,11 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
                 "STT", "Tên Phần Quà", "Giá Trị (VNĐ)", "Số Lượng", "Đã Phát"
             }
         ));
+        tblPhanQua.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPhanQuaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblPhanQua);
         if (tblPhanQua.getColumnModel().getColumnCount() > 0) {
             tblPhanQua.getColumnModel().getColumn(0).setMinWidth(50);
@@ -242,6 +284,14 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
                 btnXoaActionPerformed(evt);
             }
         });
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Tổng số tiền:");
+
+        txtTien.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setText("VNĐ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -276,13 +326,20 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
                                 .addComponent(btnThemSoLuong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtTong, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtConLai, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtTong, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtTien, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtConLai, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -316,11 +373,22 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
                     .addComponent(txtTong, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(txtConLai, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(19, 19, 19))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -356,6 +424,9 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
             PhanQuaModel phanQua = new PhanQuaModel(tenQua, giaTri, soLuong);
             PhanQuaController.themMoiPhanQua(phanQua);
             JOptionPane.showMessageDialog(rootPane, "Thêm mới thành công");
+            countTong();
+            countDaPhat();
+            tongTien();
             showQua();
             setText();
         } else {
@@ -377,6 +448,9 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
                 int giaTri = Integer.parseInt(giatri);
                 int soLuong = Integer.parseInt(soluong);
                 PhanQuaController.sua(qua.getID(), tenQua, giaTri, soLuong);
+                countTong();
+                countDaPhat();
+                tongTien();
                 showQua();
                 setText();
             } else {
@@ -398,6 +472,9 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
             if (!"".equals(soluongthem) && option == 0) {
                 int soLuongThem = Integer.parseInt(soluongthem);
                 PhanQuaController.sua(qua.getID(), qua.getTenQua(), qua.getGiaTri(), soLuongThem + qua.getSoLuong());
+                countTong();
+                countDaPhat();
+                tongTien();
                 showQua();
                 setText();
             } else {
@@ -417,11 +494,19 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
             int option = JOptionPane.showConfirmDialog(rootPane, "Do you want to delete this item");
             if (option == 0) {
                 PhanQuaController.xoa(qua.getID());
+                countTong();
+                countDaPhat();
+                tongTien();
                 showQua();
             }
         }
 
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void tblPhanQuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhanQuaMouseClicked
+        // TODO add your handling code here:
+        mouseClick();
+    }//GEN-LAST:event_tblPhanQuaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -467,6 +552,8 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -477,6 +564,7 @@ public class QuanLyPhanQuaJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtGiaTri;
     private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtTenQua;
+    private javax.swing.JLabel txtTien;
     private javax.swing.JLabel txtTong;
     // End of variables declaration//GEN-END:variables
 }

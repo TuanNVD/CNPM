@@ -22,8 +22,8 @@ import models.PhanQuaModel;
 public class ChonQuaJFrame extends javax.swing.JFrame {
 
     private JFrame parentJFrame;
-    DefaultTableModel tableModel;
-    List<PhanQuaModel> lstQua = new ArrayList<>();
+    private  DefaultTableModel tableModel;
+    private  List<PhanQuaModel> lstQua = new ArrayList<>();
     public static int idQua;
 
     /**

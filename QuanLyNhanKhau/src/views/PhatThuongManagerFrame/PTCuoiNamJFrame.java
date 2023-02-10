@@ -15,7 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -66,6 +65,15 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
 
     public static void setTxtPT(String qua) {
         txtPhanThuong.setText(qua);
+    }
+
+    public static void setTxtHoTen(String hoTen) {
+        txtHoTen.setText(hoTen);
+    }
+
+    public static void setTxtNamSinh(String namSinh) {
+        txtNamSinh.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        txtNamSinh.setText(namSinh);
     }
 
     private void close() {
@@ -126,6 +134,7 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtNgayGhiNhan = new javax.swing.JTextField();
         txtNamSinh = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Phát Thưởng Cuối Năm");
@@ -184,7 +193,7 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
 
         txtDanhHieu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        btnPhatThuong.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPhatThuong.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnPhatThuong.setText("Phát Thưởng");
         btnPhatThuong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,9 +217,37 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Năm Sinh:");
 
-        txtNgayGhiNhan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNgayGhiNhan.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtNgayGhiNhan.setText("yyyy-MM-dd");
+        txtNgayGhiNhan.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNgayGhiNhanFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNgayGhiNhanFocusLost(evt);
+            }
+        });
 
-        txtNamSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNamSinh.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtNamSinh.setText("yyyy-MM-dd");
+        txtNamSinh.setToolTipText("");
+        txtNamSinh.setName(""); // NOI18N
+        txtNamSinh.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNamSinhFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNamSinhFocusLost(evt);
+            }
+        });
+
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton3.setText("Chọn");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -232,17 +269,21 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(25, 25, 25)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnPhatThuong, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDanhHieu, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtHoTen, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnPhatThuong, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtDanhHieu, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(txtPhanThuong, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtNgayGhiNhan, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtNamSinh, javax.swing.GroupLayout.Alignment.LEADING))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtPhanThuong, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtNgayGhiNhan, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNamSinh, javax.swing.GroupLayout.Alignment.LEADING)))
+                                .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,9 +302,10 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtHoTen)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -279,8 +321,11 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2)
-                    .addComponent(txtPhanThuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2)
+                            .addComponent(txtPhanThuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(btnPhatThuong)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -352,10 +397,53 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
         chonQua.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void txtNamSinhFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNamSinhFocusGained
+        // TODO add your handling code here:
+        if (txtNamSinh.getText().equals("yyyy-MM-dd")) {
+            txtNamSinh.setText("");
+            txtNamSinh.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        }
+
+
+    }//GEN-LAST:event_txtNamSinhFocusGained
+
+    private void txtNamSinhFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNamSinhFocusLost
+        // TODO add your handling code here:
+        if (txtNamSinh.getText().equals("")) {
+            txtNamSinh.setText("yyyy-MM-dd");
+            txtNamSinh.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+        }
+    }//GEN-LAST:event_txtNamSinhFocusLost
+
+    private void txtNgayGhiNhanFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNgayGhiNhanFocusGained
+        // TODO add your handling code here:
+        if (txtNgayGhiNhan.getText().equals("yyyy-MM-dd")) {
+            txtNgayGhiNhan.setText("");
+            txtNgayGhiNhan.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        }
+    }//GEN-LAST:event_txtNgayGhiNhanFocusGained
+
+    private void txtNgayGhiNhanFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNgayGhiNhanFocusLost
+        // TODO add your handling code here:
+        if (txtNgayGhiNhan.getText().equals("")) {
+            txtNgayGhiNhan.setText("yyyy-MM-dd");
+            txtNgayGhiNhan.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+        }
+    }//GEN-LAST:event_txtNgayGhiNhanFocusLost
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        ChonHocSinhJFame chonHs = new ChonHocSinhJFame(parentJFrame);
+        chonHs.setLocationRelativeTo(null);
+        chonHs.setResizable(false);
+        chonHs.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPhatThuong;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -367,8 +455,8 @@ public class PTCuoiNamJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblHsNhanThuong;
     private javax.swing.JTextField txtDanhHieu;
-    private javax.swing.JTextField txtHoTen;
-    private javax.swing.JTextField txtNamSinh;
+    private static javax.swing.JTextField txtHoTen;
+    private static javax.swing.JTextField txtNamSinh;
     private javax.swing.JTextField txtNgayGhiNhan;
     private static javax.swing.JTextField txtPhanThuong;
     // End of variables declaration//GEN-END:variables

@@ -311,7 +311,7 @@ public class PTDacBietJrame extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText(" Danh sách học sinh nhận thưởng");
+        jLabel1.setText(" Danh sách học sinh");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Phát quà cho học sinh dịp đặc biệt");

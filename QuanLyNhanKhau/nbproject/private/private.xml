@@ -2,6 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/views/PhatThuongManagerFrame/PTCuoiNamJFrame.java</file>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/views/PhatThuongManagerFrame/QuanLyPhanQuaJFrame.java</file>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/models/PhatThuongCuoiNamModel.java</file>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/views/PhatThuongManagerFrame/ChonHSJFrame.java</file>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/models/HocSinh.java</file>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/views/PhatThuongManagePanel.java</file>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/controllers/PhatThuongManagerController/DanhHieuController.java</file>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/views/PhatThuongManagerFrame/DipDacBietJFrame.java</file>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/controllers/PhatThuongManagerController/ChonHSController.java</file>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/views/PhatThuongManagerFrame/PTDacBietJrame.java</file>
+            <file>file:/C:/Users/TNTDT/OneDrive/Desktop/CNPM/QuanLyNhanKhau/src/models/DanhHieuModel.java</file>
+        </group>
     </open-files>
 </project-private>

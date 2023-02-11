@@ -27,13 +27,13 @@ public class DanhHieuController {
 
         try {
             conn = MysqlConnection.getMysqlConnection();
-            String sql = "insert into danh_hieu (hoTen, namSinh, danhHieu, ngayGhiNhanDanhHieu) values (?,?,?,?)";
+            String sql = "insert into danh_hieu (IDNhanKhau, hoTen, namSinh, danhHieu, ngayGhiNhanDanhHieu) values (?,?,?,?,?)";
             pstm = conn.prepareCall(sql);
-
-            pstm.setString(1, danhhieu.getHoTen());
-            pstm.setDate(2, (Date) danhhieu.getNamSinh());
-            pstm.setString(3, danhhieu.getDanhHieu());
-            pstm.setDate(4, (Date) danhhieu.getNgayGhiNhanDanhHieu());
+            pstm.setInt(1, danhhieu.getIDNhanKhau());
+            pstm.setString(2, danhhieu.getHoTen());
+            pstm.setDate(3, (Date) danhhieu.getNamSinh());
+            pstm.setString(4, danhhieu.getDanhHieu());
+            pstm.setDate(5, (Date) danhhieu.getNgayGhiNhanDanhHieu());
             pstm.execute();
 
         } catch (SQLException | ClassNotFoundException ex) {

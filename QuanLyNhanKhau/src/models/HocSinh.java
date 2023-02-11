@@ -15,6 +15,14 @@ public class HocSinh {
     private Date namSinh;
     private String gioiTinh;
     private int idNhanKhau;
+    private int tuoi;
+
+    public HocSinh(String hoTen, int idNhanKhau, int tuoi) {
+        this.hoTen = hoTen;
+        this.idNhanKhau = idNhanKhau;
+        this.tuoi = tuoi;
+    }
+    
 
     public HocSinh(String hoTen, Date namSinh, String gioiTinh, int idNhanKhau) {
         this.hoTen = hoTen;
@@ -55,6 +63,12 @@ public class HocSinh {
         this.idNhanKhau = idNhanKhau;
     }
   
+    public int getTuoi(){
+        return tuoi;
+    }
     
+    public void setTuoi(int tuoi){
+        this.tuoi = tuoi;
+    }
     
 }

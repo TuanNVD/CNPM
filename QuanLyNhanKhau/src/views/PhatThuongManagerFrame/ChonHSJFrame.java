@@ -9,20 +9,12 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.HocSinh;
-import services.MysqlConnection;
-import views.PhatThuongManagePanel;
 
 /**
  *
@@ -89,6 +81,17 @@ public class ChonHSJFrame extends javax.swing.JFrame {
         return tenHs;
     }
 
+    public String chonID() {
+        int selectIndex = tblHS.getSelectedRow();
+        String id = "";
+        if (selectIndex >= 0) {
+            HocSinh hs = lstHs.get(selectIndex);
+            int x = hs.getIdNhanKhau();
+            id = Integer.toString(x);
+        }
+        return id;
+    }
+
     public String chonNs() {
         int selectIndex = tblHS.getSelectedRow();
         String tenNs = "";
@@ -120,6 +123,8 @@ public class ChonHSJFrame extends javax.swing.JFrame {
         txtNamSinh = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtIDNK = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -198,6 +203,11 @@ public class ChonHSJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setText("ID NK:");
+
+        txtIDNK.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -224,15 +234,22 @@ public class ChonHSJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtHoTen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtNamSinh, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(87, 87, 87))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtHoTen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNamSinh, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(87, 87, 87))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(txtIDNK, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,9 +274,13 @@ public class ChonHSJFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtNamSinh))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtIDNK))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addGap(52, 52, 52))))
         );
@@ -271,11 +292,13 @@ public class ChonHSJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         String ht = txtHoTen.getText();
         String ns = txtNamSinh.getText();
+        String id = txtIDNK.getText();
         if (!"".equals(ht) && !"".equals(ns)) {
             this.parentJFrame.setEnabled(true);
             dispose();
             PTCuoiNamJFrame.setTxtHoTen(ht);
             PTCuoiNamJFrame.setTxtNamSinh(ns);
+            PTCuoiNamJFrame.setIDNK(id);
         } else {
             JOptionPane.showMessageDialog(rootPane, "Bạn chưa chọn");
         }
@@ -283,10 +306,11 @@ public class ChonHSJFrame extends javax.swing.JFrame {
 
     private void tblHSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHSMouseClicked
         // TODO add your handling code here:
-        String s1 = chonHs(), s2 = chonNs();
+        String s1 = chonHs(), s2 = chonNs(), s3 = chonID();
         if (!"".equals(s1)) {
             txtHoTen.setText(s1);
             txtNamSinh.setText(s2);
+            txtIDNK.setText(s3);
         }
     }//GEN-LAST:event_tblHSMouseClicked
 
@@ -331,9 +355,11 @@ public class ChonHSJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblHS;
     private javax.swing.JLabel txtHoTen;
+    private javax.swing.JLabel txtIDNK;
     private javax.swing.JLabel txtNamSinh;
     private javax.swing.JTextField txtTim;
     // End of variables declaration//GEN-END:variables

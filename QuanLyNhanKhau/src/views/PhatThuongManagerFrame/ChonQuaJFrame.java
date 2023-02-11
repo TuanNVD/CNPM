@@ -65,7 +65,7 @@ public class ChonQuaJFrame extends javax.swing.JFrame {
         }
     }
 
-    public String chonQua() {
+    private String chonQua() {
         int selectIndex = tblQua.getSelectedRow();
         String tenQua = "";
         if (selectIndex >= 0) {
@@ -76,7 +76,7 @@ public class ChonQuaJFrame extends javax.swing.JFrame {
         return tenQua;
     }
 
-    public void showQua() {
+    private void showQua() {
         lstQua = PhanQuaController.findAll();
 
         tableModel.setRowCount(0);

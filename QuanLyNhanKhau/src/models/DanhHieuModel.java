@@ -6,15 +6,14 @@ package models;
 
 import java.sql.Date;
 
-
-
 /**
  *
  * @author TNTDT
  */
 public class DanhHieuModel {
-    
+
     private int ID;
+    private int IDNhanKhau;
     private String hoTen;
     private Date namSinh;
     private String danhHieu;
@@ -34,8 +33,23 @@ public class DanhHieuModel {
         this.danhHieu = danhHieu;
         this.ngayGhiNhanDanhHieu = ngayGhiNhanDanhHieu;
     }
+
+    public DanhHieuModel(int IDNhanKhau, String hoTen, Date namSinh, Date ngayGhiNhanDanhHieu) {
+        this.IDNhanKhau = IDNhanKhau;
+        this.hoTen = hoTen;
+        this.namSinh = namSinh;
+        this.ngayGhiNhanDanhHieu = ngayGhiNhanDanhHieu;
+    }
     
     
+
+    public int getIDNhanKhau() {
+        return ID;
+    }
+
+    public void setIDNhanKhau(int IDnk) {
+        this.IDNhanKhau = IDnk;
+    }
 
     public int getID() {
         return ID;
@@ -76,6 +90,5 @@ public class DanhHieuModel {
     public void setNgayGhiNhanDanhHieu(Date ngayGhiNhanDanhHieu) {
         this.ngayGhiNhanDanhHieu = ngayGhiNhanDanhHieu;
     }
-    
-    
+
 }

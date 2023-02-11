@@ -4,13 +4,12 @@
  */
 package views;
 
-import controllers.PhatThuongManagerController.ChonHSController;
 import java.awt.Font;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +17,9 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import models.HocSinh;
 import services.MysqlConnection;
+import views.PhatThuongManagerFrame.DipDacBietJFrame;
 import views.PhatThuongManagerFrame.PTCuoiNamJFrame;
+import views.PhatThuongManagerFrame.PTDacBietJrame;
 import views.PhatThuongManagerFrame.QuanLyPhanQuaJFrame;
 
 /**
@@ -26,44 +27,61 @@ import views.PhatThuongManagerFrame.QuanLyPhanQuaJFrame;
  * @author TNTDT
  */
 public class PhatThuongManagePanel extends javax.swing.JPanel {
-    
+
     private JFrame parentFrame;
     DefaultTableModel tableModel;
     List<HocSinh> lstHs;
+
     /**
      * Creates new form HoKhauManagePanel
+     *
      * @param parentFrame
      */
-    public PhatThuongManagePanel (JFrame parentFrame) {
+    public PhatThuongManagePanel(JFrame parentFrame) {
         this.parentFrame = parentFrame;
         initComponents();
-        tableModel = (DefaultTableModel) tblHs.getModel();
-        tblHs.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
-        tblHs.setRowHeight(40);
-        tblHs.validate();
-        tblHs.repaint();
-        tblHs.setFont(new Font("Arial", Font.PLAIN, 14));
-        tblHs.getColumnModel().getColumn(0).setMaxWidth(40);
-        tblHs.getColumnModel().getColumn(0).setMinWidth(40);
-        tblHs.getColumnModel().getColumn(0).setPreferredWidth(80);
+        tableModel = (DefaultTableModel) tblQua.getModel();
+        tblQua.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        tblQua.setRowHeight(30);
+        tblQua.validate();
+        tblQua.repaint();
+        tblQua.setFont(new Font("Arial", Font.PLAIN, 14));
+        tblQua.getColumnModel().getColumn(0).setMaxWidth(40);
+        tblQua.getColumnModel().getColumn(0).setMinWidth(40);
+        tblQua.getColumnModel().getColumn(0).setPreferredWidth(80);
         show();
     }
 
     /**
      * Creates new form PhatThuongManagePanel
      */
-    
-    public void show(){
-        lstHs = new ArrayList<>();
-        lstHs = ChonHSController.findAll();
-        tableModel.setRowCount(0);
-        lstHs.forEach((HocSinh hss) -> {
-            tableModel.addRow(new Object[]{tableModel.getRowCount() + 1, hss.getIdNhanKhau(),
-                hss.getHoTen(), hss.getGioiTinh(), hss.getNamSinh()});
-        });
+    public void show() {
+        Connection conn = null;
+        Statement stm = null;
 
-        
+//        try {
+//            conn = MysqlConnection.getMysqlConnection();
+//            String sql = "select db.IDHS, db.hoTen, tongQua, tongTien "
+//                    + "from pt_dip_dac_biet db, phat_thuong_cuoi_nam cn, danh_hieu dh, phan_qua q "
+//                    + "where cn.IDHS = dh.ID and db.IDPhanQua = q.ID and cn.IDPhanQua = q.ID and  db.IDPhanQua = q.ID ";
+//            PreparedStatement pstmt = conn.prepareStatement(sql);
+//            ResultSet rs = pstmt.executeQuery();
+//            tableModel.setRowCount(0);
+//            while (rs.next()) {
+//                tableModel.addRow(new Object[]{
+//                    tableModel.getRowCount() + 1,
+//                    rs.getString("ID"),
+//                    rs.getInt("hoTen"),
+//                    rs.getInt("tongQua"),
+//                    rs.getInt("tongTien"),});
+//            }
+//            tableModel.fireTableDataChanged();
+//
+//        } catch (SQLException | ClassNotFoundException ex) {
+//            Logger.getLogger(PhatThuongManagePanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -74,42 +92,27 @@ public class PhatThuongManagePanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblHs = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         btnPhatThuongCuoiNam = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnQuanLyPhanQua = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblQua = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtTimKiem = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("QUẢN LÝ CẤP PHÁT PHẦN THƯỞNG");
 
-        tblHs.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "STT", "ID Nhân Khẩu", "Họ và tên", "Giới Tính", "Ngày sinh"
-            }
-        ));
-        tblHs.setSelectionBackground(new java.awt.Color(204, 204, 204));
-        jScrollPane1.setViewportView(tblHs);
-        if (tblHs.getColumnModel().getColumnCount() > 0) {
-            tblHs.getColumnModel().getColumn(0).setMinWidth(30);
-            tblHs.getColumnModel().getColumn(0).setPreferredWidth(30);
-            tblHs.getColumnModel().getColumn(0).setMaxWidth(30);
-            tblHs.getColumnModel().getColumn(1).setMinWidth(120);
-            tblHs.getColumnModel().getColumn(1).setMaxWidth(120);
-            tblHs.getColumnModel().getColumn(3).setMinWidth(80);
-            tblHs.getColumnModel().getColumn(3).setMaxWidth(80);
-            tblHs.getColumnModel().getColumn(4).setMinWidth(100);
-            tblHs.getColumnModel().getColumn(4).setMaxWidth(100);
-        }
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("Danh sách nhân khẩu trong độ tuổi học tập");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel2.setText("Thống kê");
 
         btnPhatThuongCuoiNam.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnPhatThuongCuoiNam.setText("PHÁT THƯỞNG CUỐI NĂM");
@@ -121,6 +124,11 @@ public class PhatThuongManagePanel extends javax.swing.JPanel {
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setText("PHÁT THƯỞNG DỊP ĐẶC BIỆT");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         btnQuanLyPhanQua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnQuanLyPhanQua.setText("QUẢN LÝ PHẦN QUÀ");
@@ -130,6 +138,49 @@ public class PhatThuongManagePanel extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("QL PHÁT QUÀ DỊP ĐẶC BIỆT");
+        jButton1.setActionCommand("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        tblQua.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "STT", "ID Nhân Khẩu", "Họ Tên", "Tổng Quà Nhận"
+            }
+        ));
+        jScrollPane2.setViewportView(tblQua);
+        if (tblQua.getColumnModel().getColumnCount() > 0) {
+            tblQua.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tblQua.getColumnModel().getColumn(1).setPreferredWidth(60);
+            tblQua.getColumnModel().getColumn(3).setPreferredWidth(60);
+        }
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Tổng quà:");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("jLabel5");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setText("Tìm kiếm:");
+
+        txtTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTimKiemActionPerformed(evt);
+            }
+        });
+
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton3.setText("Tìm");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -137,38 +188,71 @@ public class PhatThuongManagePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(128, 128, 128)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton3))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnPhatThuongCuoiNam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnQuanLyPhanQua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(256, 256, 256)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnQuanLyPhanQua, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnQuanLyPhanQua, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
                         .addComponent(btnPhatThuongCuoiNam, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
+                        .addGap(40, 40, 40)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -178,7 +262,7 @@ public class PhatThuongManagePanel extends javax.swing.JPanel {
         ptCuoiNam.setLocationRelativeTo(null);
         ptCuoiNam.setResizable(false);
         ptCuoiNam.setVisible(true);
-        
+
     }//GEN-LAST:event_btnPhatThuongCuoiNamActionPerformed
 
     private void btnQuanLyPhanQuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyPhanQuaActionPerformed
@@ -187,17 +271,45 @@ public class PhatThuongManagePanel extends javax.swing.JPanel {
         qlPhanQua.setLocationRelativeTo(null);
         qlPhanQua.setResizable(false);
         qlPhanQua.setVisible(true);
-        
+
     }//GEN-LAST:event_btnQuanLyPhanQuaActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        PTDacBietJrame phatThuong = new PTDacBietJrame(parentFrame);
+        phatThuong.setLocationRelativeTo(null);
+        phatThuong.setResizable(false);
+        phatThuong.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTimKiemActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        DipDacBietJFrame dipDB = new DipDacBietJFrame(parentFrame);
+        dipDB.setLocationRelativeTo(null);
+        dipDB.setResizable(false);
+        dipDB.setVisible(true);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPhatThuongCuoiNam;
     private javax.swing.JButton btnQuanLyPhanQua;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblHs;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblQua;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

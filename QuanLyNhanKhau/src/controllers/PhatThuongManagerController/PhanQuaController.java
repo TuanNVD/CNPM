@@ -104,6 +104,22 @@ public class PhanQuaController {
 
     }
 
+    public static void tangSoLuongDaPhat(PhanQuaModel qua, int sl) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try {
+            conn = MysqlConnection.getMysqlConnection();
+            String sql = "UPDATE `phan_qua` SET `soLuongDaPhat` = ? WHERE `phan_qua`.`ID` = ?";
+            pstm = conn.prepareCall(sql);
+            pstm.setInt(1, qua.getSoLuongDaPhat() + sl);
+            pstm.setInt(2, qua.getID());
+            pstm.execute();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(PhanQuaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public static void tangSoLuongDaPhat(PhanQuaModel qua) {
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -149,21 +165,47 @@ public class PhanQuaController {
     }
 
     public static boolean check(int idQua) {
-        
+
         boolean b = false;
         Connection conn = null;
         Statement stm = null;
         String id = Integer.toString(idQua);
         try {
             conn = MysqlConnection.getMysqlConnection();
-            String sql = "select ID, soLuong, soLuongDaPhat from phan_qua where ID = "+id;
+            String sql = "select ID, soLuong, soLuongDaPhat from phan_qua where ID = " + id;
             stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 if (rs.getInt("ID") == idQua) {
-                    if(rs.getInt("soLuong") <= rs.getInt("soLuongDaPhat")){
+                    if (rs.getInt("soLuong") <= rs.getInt("soLuongDaPhat")) {
                         b = true;
-                    }                     
+                    }
+                    break;
+                }
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(PhanQuaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return b;
+    }
+    
+        public static boolean check(int idQua, int sl) {
+
+        boolean b = false;
+        Connection conn = null;
+        Statement stm = null;
+        String id = Integer.toString(idQua);
+        try {
+            conn = MysqlConnection.getMysqlConnection();
+            String sql = "select ID, soLuong, soLuongDaPhat from phan_qua where ID = " + id;
+            stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                if (rs.getInt("ID") == idQua) {
+                    if (rs.getInt("soLuong") <= (rs.getInt("soLuongDaPhat") + sl)) {
+                        b = true;
+                    }
                     break;
                 }
             }

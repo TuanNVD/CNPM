@@ -113,6 +113,26 @@ public class DipDacBietJFrame extends javax.swing.JFrame {
         }
     }
 
+    public String chonTen() {
+        int selectIndex = table.getSelectedRow();
+        String ten = "";
+        if (selectIndex >= 0) {
+            DipDacBietModel dip = lst.get(selectIndex);
+            ten = dip.getTenDipDacBiet();
+        }
+        return ten;
+    }
+
+    public String chonNgay() {
+        int selectIndex = table.getSelectedRow();
+        String tenNgay = "";
+        if (selectIndex >= 0) {
+            DipDacBietModel dip = lst.get(selectIndex);
+            tenNgay = dip.getNgayDienRa().toString();
+        }
+        return tenNgay;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -131,14 +151,18 @@ public class DipDacBietJFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtHoTen = new javax.swing.JTextField();
         txtNgay = new javax.swing.JTextField();
-        txtXoa = new javax.swing.JButton();
+        txtSua = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblHS = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Dịp phát quà đặc biệt");
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -159,24 +183,31 @@ public class DipDacBietJFrame extends javax.swing.JFrame {
             table.getColumnModel().getColumn(0).setMaxWidth(50);
         }
 
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 340, 190));
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("Quản lý dịp phát quà");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 9, 198, -1));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Thêm");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Tên Dịp Đặc Biệt:");
+        jLabel2.setText("Dịp Phát Quà:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 126, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Ngày Diễn Ra:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 126, 20));
 
         txtHoTen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel1.add(txtHoTen, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 200, 30));
 
         txtNgay.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         txtNgay.setText("yyyy-MM-dd");
@@ -188,31 +219,36 @@ public class DipDacBietJFrame extends javax.swing.JFrame {
                 txtNgayFocusLost(evt);
             }
         });
+        jPanel1.add(txtNgay, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 199, 30));
 
-        txtXoa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtXoa.setText("Xóa");
-        txtXoa.addActionListener(new java.awt.event.ActionListener() {
+        txtSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtSua.setText("Sửa");
+        txtSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtXoaActionPerformed(evt);
+                txtSuaActionPerformed(evt);
             }
         });
+        jPanel1.add(txtSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 180, 80, -1));
 
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton3.setText("Close");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 560, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel4.setText("Danh sách học sinh đã nhận quà");
+        jLabel4.setText("Danh sách nhận quà");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 253, -1));
 
         tblHS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "STT", "Họ Tên", "Năm Sinh", "Tên Quà", "Dịp Nhận"
+                "STT", "Họ Tên", "Ngày Sinh", "Tên Quà", "Dịp Nhận"
             }
         ));
         jScrollPane2.setViewportView(tblHS);
@@ -225,83 +261,27 @@ public class DipDacBietJFrame extends javax.swing.JFrame {
             tblHS.getColumnModel().getColumn(3).setMaxWidth(100);
         }
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton3)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jButton1))
-                                            .addGap(7, 7, 7)
-                                            .addComponent(txtXoa))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(txtNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(jLabel2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(txtXoa)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
-                .addContainerGap())
-        );
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 679, 277));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setText("Điền thông tin để thêm");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 300, -1));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setText("Chọn Item bảng bên để sửa");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 210, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         pack();
@@ -327,14 +307,35 @@ public class DipDacBietJFrame extends javax.swing.JFrame {
         close();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void txtNgayFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNgayFocusGained
-        // TODO add your handling code here:
-        if (txtNgay.getText().equals("yyyy-MM-dd")) {
-            txtNgay.setText("");
-            txtNgay.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+    private void txtSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSuaActionPerformed
+        // TODO add your handling code here:        int selectIndex = tblPhanQua.getSelectedRow();
+        int selectIndex = table.getSelectedRow();
+        if (selectIndex >= 0) {
+            int option = JOptionPane.showConfirmDialog(rootPane, "Sửa thông tin?");
+            DipDacBietModel dip = lst.get(selectIndex);
+            String tenDip = txtHoTen.getText();
+            String ngay = txtNgay.getText();
+            if (!"".equals(tenDip) && !"".equals(ngay) && option == 0) {
+                Date nGN = Date.valueOf(ngay);
+                DipDacBietController.sua(dip.getID(), tenDip, nGN);
+                this.showList();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Điền thông tin");
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Chọn quà cần sửa");
         }
+    }//GEN-LAST:event_txtSuaActionPerformed
 
-    }//GEN-LAST:event_txtNgayFocusGained
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        // TODO add your handling code here:
+        String s1 = chonTen();
+        String s2 = chonNgay();
+        txtHoTen.setText(s1);
+        txtNgay.setText(s2);
+        txtNgay.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+
+    }//GEN-LAST:event_tableMouseClicked
 
     private void txtNgayFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNgayFocusLost
         // TODO add your handling code here:
@@ -342,26 +343,15 @@ public class DipDacBietJFrame extends javax.swing.JFrame {
             txtNgay.setText("yyyy-MM-dd");
             txtNgay.setFont(new Font("Segoe UI", Font.ITALIC, 12));
         }
-
     }//GEN-LAST:event_txtNgayFocusLost
 
-    private void txtXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtXoaActionPerformed
+    private void txtNgayFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNgayFocusGained
         // TODO add your handling code here:
-        int selectIndex = table.getSelectedRow();
-        if (selectIndex >= 0) {
-            DipDacBietModel dip = lst.get(selectIndex);
-            int option = JOptionPane.showConfirmDialog(rootPane, "Do you want to delete this item");
-            if (option == 0) {
-                DipDacBietController.xoa(dip.getID());
-                this.showList();
-            }
+        if (txtNgay.getText().equals("yyyy-MM-dd")) {
+            txtNgay.setText("");
+            txtNgay.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         }
-
-    }//GEN-LAST:event_txtXoaActionPerformed
-
-    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tableMouseClicked
+    }//GEN-LAST:event_txtNgayFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -371,6 +361,8 @@ public class DipDacBietJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -378,6 +370,6 @@ public class DipDacBietJFrame extends javax.swing.JFrame {
     private javax.swing.JTable tblHS;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtNgay;
-    private javax.swing.JButton txtXoa;
+    private javax.swing.JButton txtSua;
     // End of variables declaration//GEN-END:variables
 }

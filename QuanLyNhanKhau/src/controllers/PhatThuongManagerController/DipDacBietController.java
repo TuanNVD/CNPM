@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -79,6 +80,23 @@ public class DipDacBietController {
             Logger.getLogger(PhanQuaController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public static void sua(int id, String ten, Date ngay){
+                com.mysql.jdbc.Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try {
+            conn = (com.mysql.jdbc.Connection) MysqlConnection.getMysqlConnection();
+            String sql = "update dip_dac_biet set tenDipDacBiet = ?, ngayDienRa = ? where id = ?";
+            pstm = conn.prepareCall(sql);
+            pstm.setString(1, ten);
+            pstm.setDate(2, ngay);
+            pstm.setInt(3, id);
+            pstm.execute();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(PhanQuaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
